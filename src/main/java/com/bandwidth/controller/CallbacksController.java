@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
-
 @RestController
 @RequestMapping("callbacks")
 public class CallbacksController {
@@ -21,7 +19,7 @@ public class CallbacksController {
     Logger logger = LoggerFactory.getLogger(CallbacksController.class);
 
     @RequestMapping("/inbound")
-    public String inboundCall(@RequestBody VoiceCallback callback) throws IOException {
+    public String inboundCall(@RequestBody VoiceCallback callback) {
 
         Response response = new Response();
 
