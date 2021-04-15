@@ -22,10 +22,10 @@ public class EndpointController {
 
     Logger logger = LoggerFactory.getLogger(EndpointController.class);
 
-    private final String username = System.getenv("BANDWIDTH_USERNAME");
-    private final String password = System.getenv("BANDWIDTH_PASSWORD");
-    private final String accountId = System.getenv("BANDWIDTH_ACCOUNT_ID");
-    private final String baseUrl = System.getenv("BASE_URL");
+    private final String username = System.getenv("BW_USERNAME");
+    private final String password = System.getenv("BW_PASSWORD");
+    private final String accountId = System.getenv("BW_ACCOUNT_ID");
+    private final String baseUrl = System.getenv("BASE_CALLBACK_URL");
 
     private final BandwidthClient client = new BandwidthClient.Builder()
             .voiceBasicAuthCredentials(username, password)
