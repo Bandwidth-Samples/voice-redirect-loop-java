@@ -23,7 +23,8 @@ On an inbound call the callId is saved to an active calls set and set to loop in
 
 # Bandwidth
 
-In order to use the Bandwidth API users need to set up the appropriate application at the [Bandwidth Dashboard](https://dashboard.bandwidth.com/) and create API tokens.
+In order to use the Bandwidth API users need to set up the appropriate application at the [Bandwidth Dashboard](
+https://dashboard.bandwidth.com/) and create API tokens.
 
 To create an application log into the [Bandwidth Dashboard](https://dashboard.bandwidth.com/) and navigate to the `Applications` tab.  Fill out the **New Application** form selecting the service (Messaging or Voice) that the application will be used for.  All Bandwidth services require publicly accessible Callback URLs, for more information on how to set one up see [Callback URLs](#callback-urls).
 
