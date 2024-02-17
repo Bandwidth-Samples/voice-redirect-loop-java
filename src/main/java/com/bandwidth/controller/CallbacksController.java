@@ -29,10 +29,10 @@ public class CallbacksController {
         Response response = new Response();
 	JAXBContext jaxbContext = JAXBContext.newInstance(Response.class);
 
-        String eventType = callback.SERIALIZED_NAME_EVENT_TYPE;
+        String eventType = callback.getEventType();
 
         logger.info(eventType);
-        logger.info(callback.SERIALIZED_NAME_CALL_ID);
+        logger.info(callback.getCallId());
 
         if("initiate".equalsIgnoreCase(eventType) || "redirect".equalsIgnoreCase(eventType)) {
 
@@ -46,8 +46,10 @@ public class CallbacksController {
         }
 
         if ("initiate".equalsIgnoreCase(eventType)) {
-            Main.activeCalls.add(callback.SERIALIZED_NAME_CALL_ID);
+            Main.activeCalls.add(callback.getCallId());
         }
+
+	logger.info(response.toBxml(jaxbContext));
 
         return response.toBxml(jaxbContext);
 
@@ -59,10 +61,10 @@ public class CallbacksController {
         Response response = new Response();
 	JAXBContext jaxbContext = JAXBContext.newInstance(Response.class);
 
-        logger.info(callback.SERIALIZED_NAME_EVENT_TYPE);
-        logger.info(callback.SERIALIZED_NAME_CALL_ID);
+        logger.info(callback.getEventType());
+        logger.info(callback.getCallId());
 
-        if("redirect".equalsIgnoreCase(callback.SERIALIZED_NAME_EVENT_TYPE)) {
+        if("redirect".equalsIgnoreCase(callback.getCallId())) {
             SpeakSentence ss = new SpeakSentence("Call successfully updated. Goodbye.");
 
             response.with(ss);
