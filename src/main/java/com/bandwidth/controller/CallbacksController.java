@@ -1,11 +1,17 @@
 package com.bandwidth.controller;
 
 import com.bandwidth.Main;
-import com.bandwidth.model.VoiceCallback;
-import com.bandwidth.voice.bxml.verbs.Redirect;
-import com.bandwidth.voice.bxml.verbs.Response;
-import com.bandwidth.voice.bxml.verbs.Ring;
-import com.bandwidth.voice.bxml.verbs.SpeakSentence;
+import com.bandwidth.sdk.model.InitiateCallback;
+import com.bandwidth.sdk.model.RedirectCallback;
+import com.bandwidth.sdk.api.*;
+import com.bandwidth.sdk.model.bxml.*;
+import com.bandwidth.sdk.model.bxml.Redirect;
+import com.bandwidth.sdk.model.bxml.Response;
+import com.bandwidth.sdk.model.bxml.Ring;
+import com.bandwidth.sdk.model.bxml.Bxml;
+import com.bandwidth.sdk.model.bxml.SpeakSentence;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,54 +21,54 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("callbacks")
 public class CallbacksController {
-
     Logger logger = LoggerFactory.getLogger(CallbacksController.class);
 
     @RequestMapping("/inbound")
-    public String inboundCall(@RequestBody VoiceCallback callback) {
+    public String inboundCall(@RequestBody InitiateCallback callback) throws JAXBException {
 
         Response response = new Response();
+	JAXBContext jaxbContext = JAXBContext.newInstance(Response.class);
 
-        String eventType = callback.getEventType();
+        String eventType = callback.SERIALIZED_NAME_EVENT_TYPE;
 
         logger.info(eventType);
-        logger.info(callback.getCallId());
+        logger.info(callback.SERIALIZED_NAME_CALL_ID);
 
         if("initiate".equalsIgnoreCase(eventType) || "redirect".equalsIgnoreCase(eventType)) {
 
-            Ring ring = Ring.builder().duration(30.0).build();
+            Ring ring = new Ring(30d, true);
 
-            Redirect redirect = Redirect.builder()
+            Redirect redirect = new Redirect().builder()
                 .redirectUrl("/callbacks/inbound")
                 .build();
 
-            response.addAll(ring, redirect);
+            response.withVerbs(ring, redirect);
         }
 
         if ("initiate".equalsIgnoreCase(eventType)) {
-            Main.activeCalls.add(callback.getCallId());
+            Main.activeCalls.add(callback.SERIALIZED_NAME_CALL_ID);
         }
 
-        return response.toBXML();
+        return response.toBxml(jaxbContext);
 
     }
 
     @RequestMapping("/goodbye")
-    public String outboundCall(@RequestBody VoiceCallback callback) {
+    public String outboundCall(@RequestBody RedirectCallback callback) throws JAXBException {
 
         Response response = new Response();
+	JAXBContext jaxbContext = JAXBContext.newInstance(Response.class);
 
-        logger.info(callback.getEventType());
-        logger.info(callback.getCallId());
+        logger.info(callback.SERIALIZED_NAME_EVENT_TYPE);
+        logger.info(callback.SERIALIZED_NAME_CALL_ID);
 
-        if("redirect".equalsIgnoreCase(callback.getEventType())) {
-            SpeakSentence ss = SpeakSentence.builder()
-                .text("Call successfully updated. Goodbye.")
-                .build();
+        if("redirect".equalsIgnoreCase(callback.SERIALIZED_NAME_EVENT_TYPE)) {
+            SpeakSentence ss = new SpeakSentence("Call successfully updated. Goodbye.");
 
-            response.addAll(ss);
+            response.with(ss);
+
         }
-        return response.toBXML();
+        return response.toBxml(jaxbContext);
     }
 
 }
