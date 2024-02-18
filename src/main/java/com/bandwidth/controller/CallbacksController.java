@@ -64,7 +64,7 @@ public class CallbacksController {
         logger.info(callback.getEventType());
         logger.info(callback.getCallId());
 
-        if("redirect".equalsIgnoreCase(callback.getCallId())) {
+        if("redirect".equalsIgnoreCase(callback.getEventType())) {
             SpeakSentence ss = new SpeakSentence("Call successfully updated. Goodbye.");
 
             response.with(ss);
