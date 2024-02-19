@@ -45,10 +45,6 @@ public class EndpointController {
     private static UpdateCall updateCallBody = new UpdateCall();
     
 
-    @GetMapping("/")
-    public String index() {
-        return "Greetings from Spring Boot!";
-    }
     @GetMapping("/activeCalls")
     public Set<String> getActiveCalls() {
         return Main.activeCalls;
