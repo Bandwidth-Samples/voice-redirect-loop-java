@@ -47,7 +47,7 @@ For a detailed introduction to Bandwidth Callbacks see https://dev.bandwidth.com
 
 Below are the callback paths:
 * `/callbacks/inbound`
-* `/callbacks/goodbye`
+* `/callbacks/callEnded`
 
 ## Ngrok
 
