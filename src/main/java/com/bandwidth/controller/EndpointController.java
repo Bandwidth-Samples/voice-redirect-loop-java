@@ -37,7 +37,7 @@ public class EndpointController {
     public final String username = System.getenv("BW_USERNAME");
     public final String password = System.getenv("BW_PASSWORD");
     public final String accountId = System.getenv("BW_ACCOUNT_ID");
-    public final String baseUrl = System.getenv("BW_BASE_URL");
+    public final String baseUrl = System.getenv("BASE_CALLBACK_URL");
 
     public ApiClient defaultClient = Configuration.getDefaultApiClient();
     public HttpBasicAuth Basic = (HttpBasicAuth) defaultClient.getAuthentication("Basic");
