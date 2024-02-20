@@ -57,7 +57,7 @@ public class EndpointController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Call not found.");
         }
 
-	updateCallBody.setRedirectUrl(new URI(baseUrl + "/callbacks/goodbye"));
+	updateCallBody.setRedirectUrl(new URI(baseUrl + "/callbacks/callEnded"));
 
         try {
 	    Basic.setUsername(username);

@@ -55,7 +55,7 @@ public class CallbacksController {
 
     }
 
-    @RequestMapping("/goodbye")
+    @RequestMapping("/callEnded")
     public String outboundCall(@RequestBody RedirectCallback callback) throws JAXBException {
 
         Response response = new Response();
