@@ -1,7 +1,8 @@
 package com.bandwidth;
 
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -15,16 +16,21 @@ public class Main {
 
     static Logger logger = LoggerFactory.getLogger(Main.class);
 
-    public static final Set<String> activeCalls = new HashSet<>();
+    public static final Set<String> activeCalls = ConcurrentHashMap.newKeySet();
 
     public static void main(String[] args) {
-        SpringApplication.run(Main.class, args);
+        String port = System.getenv("LOCAL_PORT");
+        if (System.getenv("BW_ACCOUNT_ID") == null || System.getenv("BW_CLIENT_ID") == null
+                || System.getenv("BW_CLIENT_SECRET") == null || System.getenv("BASE_CALLBACK_URL") == null
+                || port == null || !port.matches("\\d+")) {
+            System.err.println("Please set the environmental variables defined in the README");
+            System.exit(1);
+        }
+
+        SpringApplication application = new SpringApplication(Main.class);
+        application.setDefaultProperties(Collections.singletonMap("server.port", port));
+        application.run(args);
         logger.info("Server has started...");
     }
-
-
-
-
-
 
 }
